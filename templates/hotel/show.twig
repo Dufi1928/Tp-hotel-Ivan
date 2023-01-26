@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HotelController!{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href="{{ asset('build/hotel.css') }}">
+
+    <style>
+        .headline {
+            background: url("{{ asset('uploads/img/')}}{{ hotel.coverImg }}") no-repeat center center;
+        }
+    </style>
+    <header>
+        <div class="headline">
+            <div class="inner">
+                <h1>{{ hotel.name }}</h1>
+                <p>Scroll down the page</p>
+            </div>
+        </div>
+    </header>
+    <section class="listings">
+        <div class="wrapper">
+            <ul class="properties_list">
+                {% for suite in hotel.suites  %}
+                    <li>
+                        <a href="#">
+                            <img src="{{ asset('uploads/img/rooms/')}}{{ suite.photo }}" alt="" title="" class="property_img"/>
+                        </a>
+                        <span class="price">${{ suite.price }}</span>
+                        <div class="property_details">
+                            <h1>
+                                <a href="#">{{ suite.name }}</a>
+                            </h1>
+                            <h2>{{ suite.bathroom }} bathroom, {{ suite.beds  }} bed ... </h2>
+                        </div>
+                    </li>
+                {% endfor %}
+
+
+
+            </ul>
+        </div>
+    </section>	<!--  end listing section  -->
+
+
+
+
+
+
+    <section>
+        <h2>Lorem ipsum</h2>
+        <p>{{ hotel.description }}</p>
+    </section>
+
+
+
+
+
+
+
+
+{#    {{ hotel.name }}<br>#}
+{#    {{ hotel.city }}<br>#}
+{#    {{ hotel.numberOfRooms }}<br>#}
+{#    {{ hotel.email }}<br>#}
+{#    <br>#}
+
+{#    <img src="{{ asset('uploads/img/')}}{{ hotel.coverImg }}" alt="first">#}
+
+
+
+
+
+{% endblock %}
