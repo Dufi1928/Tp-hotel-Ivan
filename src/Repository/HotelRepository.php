@@ -29,7 +29,6 @@ class HotelRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
     public function remove(Hotel $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);

@@ -38,6 +38,14 @@ class SuiteRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findAllSuitesByHotelId(int $hotelId): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.hotel = :hotelId')
+            ->setParameter('hotelId', $hotelId)
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Suite[] Returns an array of Suite objects

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('build/home.css') }}">
+    <div class="hero mb-5" style="background-image: url('https://www.rabstol.net/uploads/gallery/main/219/rabstol_net_france_12.jpg');"></div>
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8 col-lg-7 ml-auto order-lg-1 position-relative mb-5" data-aos="fade-up">
+                    <img src="{{ asset('uploads/img/rooms/rom-2.jpg')}} " alt="Image" class="img-fluid rounded">
+                </div>
+                <div class="col-md-4 col-lg-5 text-left order-lg-2" data-aos="fade-up">
+                    <h2 class="smallTitle">{{ suite.name }}</h2>
+                    <p class="mb-4 txt" style="font-size: 14px;">{{ suite.description }}</p>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6 p-0">
+                                <p class="text-uppercase letter-spacing-1">Size: {{ suite.size  }} </p>
+                            </div>
+                            <div class="col-6 p-0">
+                                <p class="text-uppercase letter-spacing-1">Bathroom: {{ suite.bathroom  }} </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6 p-0">
+                                <p class="text-uppercase text-left p-0">{{ suite.price  }}$ / per night   </p>
+                            </div>
+                            <div class="col-6 p-0">
+                                <p class="letter-spacing-1"> Beds: {{ suite.beds  }}  </p>
+                            </div>
+                        </div>
+                    </div>
+                    <p><a href="#" class="btn btn-primary text-white py-2 mr-3">Book now</a> <span class="mr-3 font-family-serif"></span> </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

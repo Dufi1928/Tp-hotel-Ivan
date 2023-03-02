@@ -2,39 +2,54 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\HotelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
+#[ApiResource]
 class Hotel
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("hotel:read")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("hotel:read")]
     private ?string $adress = null;
 
     #[ORM\Column(length: 60)]
+    #[Groups("hotel:read")]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 60)]
+    #[Groups("hotel:read")]
     private ?string $city = null;
 
     #[ORM\Column]
+    #[Groups("hotel:read")]
     private ?int $numberOfRooms = null;
 
     #[ORM\Column(length: 60)]
+    #[Groups("hotel:read")]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups("hotel:read")]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("hotel:read")]
     private ?string $coverImg = null;
 
 
@@ -48,6 +63,7 @@ class Hotel
     private ?Admin $admins = null;
 
     #[ORM\OneToMany(mappedBy: 'hotel', targetEntity: Suite::class)]
+    #[Groups("hotel:read")]
     private Collection $suites;
 
     public function __construct()
@@ -211,6 +227,4 @@ class Hotel
 
         return $this;
     }
-
-
 }

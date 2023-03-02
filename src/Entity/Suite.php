@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SuiteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SuiteRepository::class)]
 class Suite
@@ -12,18 +13,23 @@ class Suite
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("hotel:read")]
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
+    #[Groups("hotel:read")]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("hotel:read")]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups("hotel:read")]
     private ?string $photo = null;
 
     #[ORM\Column]
+    #[Groups("hotel:read")]
     private ?float $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'suite')]
@@ -31,12 +37,15 @@ class Suite
 
 
     #[ORM\Column]
+    #[Groups("hotel:read")]
     private ?int $beds = null;
 
     #[ORM\Column]
+    #[Groups("hotel:read")]
     private ?int $bathroom = null;
 
     #[ORM\Column]
+    #[Groups("hotel:read")]
     private ?float $size = null;
 
     #[ORM\ManyToOne(inversedBy: 'suites')]

@@ -1,74 +1,104 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HotelController!{% endblock %}
+{% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-    <link rel="stylesheet" href="{{ asset('build/hotel.css') }}">
-
-    <style>
-        .headline {
-            background: url("{{ asset('uploads/img/')}}{{ hotel.coverImg }}") no-repeat center center;
-        }
-    </style>
-    <header>
-        <div class="headline">
-            <div class="inner">
-                <h1>{{ hotel.name }}</h1>
-                <p>Scroll down the page</p>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('build/home.css') }}">
+    <div class="hero" style="background-image: url('{{ asset('uploads/img/image1.jpg') }}');"></div>
+    <section class="section pb-0"  >
+        <div class="container">
+            <div class="row check-availabilty" id="next">
+                <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
+                    <form action="#">
+                        <div class="row">
+                            <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                                <label for="checkin_date" class="font-weight-bold text-black">Check In</label>
+                                <div class="field-icon-wrap">
+                                    <input type="text" id="checkin_date" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                                <label for="checkout_date" class="font-weight-bold text-black">Check Out</label>
+                                <div class="field-icon-wrap">
+                                    <input type="text" id="checkout_date" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3 mb-md-0 col-lg-3">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <label for="adults" class="font-weight-bold text-black">Adults</label>
+                                        <div class="field-icon-wrap">
+                                            <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                            <select name="" id="adults" class="form-control">
+                                                <option value="">1</option>
+                                                <option value="">2</option>
+                                                <option value="">3</option>
+                                                <option value="">4+</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <label for="children" class="font-weight-bold text-black">Children</label>
+                                        <div class="field-icon-wrap">
+                                            <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                            <select name="" id="children" class="form-control">
+                                                <option value="">1</option>
+                                                <option value="">2</option>
+                                                <option value="">3</option>
+                                                <option value="">4+</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 align-self-end">
+                                <button class="btn btn-primary btn-block text-white btn-check">Check Availabilty</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </header>
-    <section class="listings">
-        <div class="wrapper">
-            <ul class="properties_list">
-                {% for suite in hotel.suites  %}
-                    <li>
-                        <a href="#">
-                            <img src="{{ asset('uploads/img/rooms/')}}{{ suite.photo }}" alt="" title="" class="property_img"/>
-                        </a>
-                        <span class="price">${{ suite.price }}</span>
-                        <div class="property_details">
-                            <h1>
-                                <a href="#">{{ suite.name }}</a>
-                            </h1>
-                            <h2>{{ suite.bathroom }} bathroom, {{ suite.beds  }} bed ... </h2>
-                        </div>
-                    </li>
-                {% endfor %}
-
-
-
-            </ul>
-        </div>
-    </section>	<!--  end listing section  -->
-
-
-
-
-
-
-    <section>
-        <h2>Lorem ipsum</h2>
-        <p>{{ hotel.description }}</p>
     </section>
-
-
-
-
-
-
-
-
-{#    {{ hotel.name }}<br>#}
-{#    {{ hotel.city }}<br>#}
-{#    {{ hotel.numberOfRooms }}<br>#}
-{#    {{ hotel.email }}<br>#}
-{#    <br>#}
-
-{#    <img src="{{ asset('uploads/img/')}}{{ hotel.coverImg }}" alt="first">#}
-
-
-
-
+    {% for hotel in hotel %}
+        <section class="section">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-md-10">
+                    <h2 class="heading aos-init aos-animate" data-aos="fade-up">{{ hotel.name }}</h2>
+                    <p data-aos="fade-up" data-aos-delay="100" class="aos-init aos-animate ">{{ hotel.description }}</p>
+                </div>
+            </div>
+            <div class="row">
+                {% for suite in suites %}
+                        <div class="col-md-6 col-lg-4 aos-init aos-animate mb-5" data-aos="fade-up">
+                            <a href="{{ path('app_room_show', { 'suiteId': suite.id }) }}" class="room">
+                                <div class="room-img">
+                                    <img  src="{{ asset( 'uploads/img/rooms/') }}{{ suite.photo }}" alt="Free website template" class="img-fluid mb-3">
+                                </div>
+                                <div class="p-3 text-center room-info">
+                                    <h2 class="smallTitle">{{ hotel.name }}</h2>
+                                    <span class="text-uppercase letter-spacing-1">{{ suite.price  }}$ / per night</span>
+                                </div>
+                            </a>
+                        </div>
+                {% endfor %}
+            </div>
+        </div>
+            {{ knp_pagination_render(suites) }}
+    </section>
+    {% endfor %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
 {% endblock %}
