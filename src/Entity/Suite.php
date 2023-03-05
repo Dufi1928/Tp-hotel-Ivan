@@ -72,8 +72,6 @@ class Suite
     #[Groups("hotel:read")]
     private ?float $price = null;
 
-    #[ORM\ManyToOne(inversedBy: 'suite')]
-    private ?Client $client = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     #[Groups("hotel:read")]
@@ -132,17 +130,6 @@ class Suite
     public function setPrice(float $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Client $client): self
-    {
-        $this->client = $client;
 
         return $this;
     }
