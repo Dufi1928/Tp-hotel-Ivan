@@ -6,8 +6,12 @@ use App\Repository\SuiteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SuiteRepository::class)]
+#[Vich\Uploadable]
 class Suite
 {
     #[ORM\Id]
@@ -24,9 +28,45 @@ class Suite
     #[Groups("hotel:read")]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    #[Groups("hotel:read")]
-    private ?string $photo = null;
+
+    #[Vich\UploadableField(mapping:"suite_image", fileNameProperty:"imageName")]
+    private $imageFile;
+    #[ORM\Column(type:"string", length:255, nullable:true)]
+    private $imageName;
+
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        if ($image) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+    public function formatPrice(): string
+    {
+        if ($this->price == 0) {
+            return 'none';
+        }
+
+        return '$' . number_format($this->price / 100, 2, '.', ',');
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+
 
     #[ORM\Column]
     #[Groups("hotel:read")]
@@ -35,6 +75,9 @@ class Suite
     #[ORM\ManyToOne(inversedBy: 'suite')]
     private ?Client $client = null;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[Groups("hotel:read")]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
     #[Groups("hotel:read")]
@@ -50,6 +93,7 @@ class Suite
 
     #[ORM\ManyToOne(inversedBy: 'suites')]
     private ?Hotel $hotel = null;
+
 
 
     public function getId(): ?int
@@ -80,19 +124,6 @@ class Suite
 
         return $this;
     }
-
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(string $photo): self
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
     public function getPrice(): ?float
     {
         return $this->price;
@@ -104,7 +135,6 @@ class Suite
 
         return $this;
     }
-
     public function getClient(): ?Client
     {
         return $this->client;
@@ -163,6 +193,21 @@ class Suite
         $this->hotel = $hotel;
 
         return $this;
+    }
+    public function __construct()
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
     }
 
 }

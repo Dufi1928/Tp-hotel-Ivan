@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('build/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/hotel.css') }}">
     <div class="hero" style="background-image: url('https://www.rabstol.net/uploads/gallery/main/219/rabstol_net_france_12.jpg');"></div>
     <section class="section pb-0"  >
         <div class="container">
@@ -78,7 +79,7 @@
                 <div class="col-md-12 col-lg-4 order-lg-1" data-aos="fade-up">
                     <h2 class="heading">Welcome!</h2>
                     <p class="mb-4 txt">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-                    <p><a href="#" class="btn btn-primary text-white py-2 mr-3">Learn More</a> <span class="mr-3 font-family-serif"><em>or</em></span> <a href="https://vimeo.com/channels/staffpicks/93951774"  data-fancybox class="text-uppercase letter-spacing-1">See video</a></p>
+                    <p><a href="#" class="btn btn-primary text-white py-2 mr-3">Learn More</a> </p>
                 </div>
             </div>
         </div>
@@ -96,8 +97,10 @@
                 {% for hotel in hotels %}
                         <div class="col-md-6 col-lg-4 aos-init aos-animate" data-aos="fade-up">
                             <a href="{{ path('app_hotel', { 'hotelId': hotel.id }) }}" class="room">
-                                <figure class="img-wrap">
-                                    <img src="{{ asset( 'uploads/img/') }}{{ hotel.coverImg }}" alt="Free website template" class="img-fluid mb-3">
+                                <figure class="img-wrap " >
+                                    <div class="hotel-img">
+                                        <img  src="{{ asset( 'uploads/img/hotels/') }}{{ hotel.coverImg }}" alt="Free website template" class="img-fluid mb-3">
+                                    </div>
                                 </figure>
                                 <div class="p-3 text-center room-info">
                                     <h2 class="smallTitle">{{ hotel.city }}</h2>
@@ -108,6 +111,7 @@
                 {% endfor %}
             </div>
         </div>
+        {{ knp_pagination_render(hotels) }}
     </section>
     <br>
     <br>

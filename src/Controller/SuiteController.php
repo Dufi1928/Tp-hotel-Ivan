@@ -11,7 +11,7 @@ use App\Entity\Suite;
 class SuiteController extends AbstractController
 {
 
-    #[Route('/room/show//{suiteId}', name: 'app_room_show')]
+    #[Route('/room/show/ {suiteId}', name: 'app_room_show')]
     public function showRoom(ManagerRegistry $doctrine, int $suiteId): Response
     {
         $suiteRepository = $doctrine->getRepository(Suite::class);

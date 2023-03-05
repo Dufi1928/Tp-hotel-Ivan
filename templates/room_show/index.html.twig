@@ -14,7 +14,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8 col-lg-7 ml-auto order-lg-1 position-relative mb-5" data-aos="fade-up">
-                    <img src="{{ asset('uploads/img/rooms/rom-2.jpg')}} " alt="Image" class="img-fluid rounded">
+                    <img src="{{ asset( 'uploads/img/rooms/') }}{{ suite.imageName }} " alt="Image" class="img-fluid rounded">
                 </div>
                 <div class="col-md-4 col-lg-5 text-left order-lg-2" data-aos="fade-up">
                     <h2 class="smallTitle">{{ suite.name }}</h2>
@@ -32,7 +32,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-6 p-0">
-                                <p class="text-uppercase text-left p-0">{{ suite.price  }}$ / per night   </p>
+                                <p class="text-uppercase text-left p-0">{{ '$' ~ (suite.price / 100)|number_format(2, '.', '') }} / per night   </p>
                             </div>
                             <div class="col-6 p-0">
                                 <p class="letter-spacing-1"> Beds: {{ suite.beds  }}  </p>
