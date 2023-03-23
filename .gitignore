@@ -1,4 +1,3 @@
-
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -23,6 +22,10 @@ vendor/
 config/packages/doctrine.yaml
 var/cache
 var/logs
+yarn.lock
+node_modules
+.yarn
+.yarn
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
@@ -30,7 +33,3 @@ var/logs
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
-yarn.lock
-node_modules
-.yarn
-.yarn

@@ -3,6 +3,8 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,57 +14,59 @@
     <link rel="stylesheet" href="{{ asset('build/home.css') }}">
     <link rel="stylesheet" href="{{ asset('build/hotel.css') }}">
     <div class="hero" style="background-image: url('https://www.rabstol.net/uploads/gallery/main/219/rabstol_net_france_12.jpg');"></div>
+
     <section class="section pb-0"  >
         <div class="container">
             <div class="row check-availabilty" id="next">
                 <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
-                    <form action="#">
-                        <div class="row">
-                            <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-                                <label for="checkin_date" class="font-weight-bold text-black">Check In</label>
-                                <div class="field-icon-wrap">
-                                    <input type="text" id="checkin_date" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
-                                <label for="checkout_date" class="font-weight-bold text-black">Check Out</label>
-                                <div class="field-icon-wrap">
-                                    <input type="text" id="checkout_date" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3 mb-md-0 col-lg-3">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3 mb-md-0">
-                                        <label for="adults" class="font-weight-bold text-black">Adults</label>
-                                        <div class="field-icon-wrap">
-                                            <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                            <select name="" id="adults" class="form-control">
-                                                <option value="">1</option>
-                                                <option value="">2</option>
-                                                <option value="">3</option>
-                                                <option value="">4+</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3 mb-md-0">
-                                        <label for="children" class="font-weight-bold text-black">Children</label>
-                                        <div class="field-icon-wrap">
-                                            <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                            <select name="" id="children" class="form-control">
-                                                <option value="">1</option>
-                                                <option value="">2</option>
-                                                <option value="">3</option>
-                                                <option value="">4+</option>
-                                            </select>
-                                        </div>
+                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                            {{ form_label(form.checkInDate, 'Check In', {'label_attr': {'class': 'font-weight-bold text-black'}}) }}
+                            <div class="input-group">
+                                <div class="input-group date" data-provide="datepicker">
+                                    {{ form_widget(form.checkInDate, {'attr': {'class': 'form-control', 'id': 'checkin_date'}}) }}
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-th"></span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 col-lg-3 align-self-end">
-                                <button class="btn btn-primary btn-block text-white btn-check">Check Availabilty</button>
                             </div>
                         </div>
-                    </form>
+                        <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                            {{ form_label(form.checkOutDate, 'Check Out', {'label_attr': {'class': 'font-weight-bold text-black'}}) }}
+                            <div class="input-group">
+                                <div class="input-group date" data-provide="datepicker">
+                                    {{ form_widget(form.checkOutDate, {'attr': {'class': 'form-control', 'id': 'checkout_date'}}) }}
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-th"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3 mb-md-0 col-lg-3">
+                            <div class="row">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <div class="field-icon-wrap">
+                                        {{ form_label(form.city, 'City', {'label_attr': {'class': 'font-weight-bold text-black'}}) }}
+                                        <div class="field-icon-wrap">
+                                            {{ form_widget(form.city, {'attr': {'class': 'form-control', 'id': 'city'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    {{ form_label(form.beds, 'Beds', {'label_attr': {'class': 'font-weight-bold text-black'}}) }}
+                                    <div class="field-icon-wrap">
+                                        <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                        {{ form_widget(form.beds, {'attr': {'class': 'form-control', 'id': 'children'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3 align-self-end">
+                            {{ form_widget(form.search, {'attr': {'class': 'btn btn-primary btn-block text-white btn-check'}}) }}
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>
@@ -99,25 +103,43 @@
                             <a href="{{ path('app_hotel', { 'hotelId': hotel.id }) }}" class="room">
                                 <figure class="img-wrap " >
                                     <div class="hotel-img">
-                                        <img  src="{{ asset( 'uploads/img/hotels/') }}{{ hotel.coverImg }}" alt="Free website template" class="img-fluid mb-3">
+                                        <img src="{{ asset('uploads/img/hotels/' ~ hotel.coverImgName) }}" alt="Free website template" class="img-fluid mb-3">
                                     </div>
                                 </figure>
                                 <div class="p-3 text-center room-info">
-                                    <h2 class="smallTitle">{{ hotel.city }}</h2>
-                                    <span class="text-uppercase letter-spacing-1">{{ hotel.name  }}</span>
+                                    <h2 class="smallTitle">{{ hotel.name  }}</h2>
+                                    <span class="text-uppercase letter-spacing-1">{{ hotel.city }}</span>
                                 </div>
                             </a>
                         </div>
                 {% endfor %}
             </div>
         </div>
-        {{ knp_pagination_render(hotels) }}
+        <div class="container d-flex justify-content-center mb-5">
+            {{ knp_pagination_render(hotels) }}
+        </div>
     </section>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize the datepicker for the start date
+            $('#checkin_date').datepicker({
+                format: 'dd/mm/yyyy', // Use the same format as in the form class
+                onSelect: function(dateText) {
+                    // Synchronize the input field value with the selected date
+                    $(this).val(dateText);
+                }
+            });
+
+            // Initialize the datepicker for the end date
+            $('#checkout_date').datepicker({
+                format: 'dd/mm/yyyy', // Use the same format as in the form class
+                onSelect: function(dateText) {
+                    // Synchronize the input field value with the selected date
+                    $(this).val(dateText);
+                }
+            });
+        });
+    </script>
 {% endblock %}

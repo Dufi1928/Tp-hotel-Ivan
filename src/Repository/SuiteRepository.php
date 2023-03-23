@@ -47,28 +47,22 @@ class SuiteRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-//    /**
-//     * @return Suite[] Returns an array of Suite objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findAvailableSuites(string $city, \DateTimeInterface $checkInDate, \DateTimeInterface $checkOutDate, int $beds)
+    {
+        $qb = $this->createQueryBuilder('s');
 
-//    public function findOneBySomeField($value): ?Suite
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $qb->join('s.hotel', 'h')
+            ->andWhere('h.city = :city')
+            ->setParameter('city', $city)
+            ->andWhere('s.beds >= :beds')
+            ->setParameter('beds', $beds)
+            ->andWhere('s NOT IN (
+            SELECT b2 FROM App\Entity\Booking b2
+            WHERE b2.checkInDate < :checkOutDate AND b2.checkOutDate > :checkInDate AND b2.suite = s
+        )')
+            ->setParameter('checkInDate', $checkInDate)
+            ->setParameter('checkOutDate', $checkOutDate);
+
+        return $qb->getQuery()->getResult();
+    }
 }

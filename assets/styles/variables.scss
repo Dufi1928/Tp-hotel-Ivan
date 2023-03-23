@@ -1,5 +1,31 @@
 .btn-primary {
-  color: #212529;
+  color: #fff;
+  background-color: #ffba5a;
+  border-color: #ffba5a;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #ffba5a;
+  border-color: #ffba5a;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+  transform: scale(1.05);
+}
+
+.btn-primary:focus, .btn-primary.focus {
+  -webkit-box-shadow: none;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+  color: #fff;
+  background-color: #ffba5a;
+  border-color: #ffba5a;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  color: #fff;
   background-color: #ffba5a;
   border-color: #ffba5a;
 }

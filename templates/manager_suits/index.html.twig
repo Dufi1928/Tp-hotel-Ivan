@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Suite index{% endblock %}
+
+{% block body %}
+    <h1>Suite index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>ImageName</th>
+                <th>Price</th>
+                <th>UpdatedAt</th>
+                <th>Beds</th>
+                <th>Bathroom</th>
+                <th>Size</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for suite in suites %}
+            <tr>
+                <td>{{ suite.id }}</td>
+                <td>{{ suite.name }}</td>
+                <td>{{ suite.description }}</td>
+                <td>{{ suite.imageName }}</td>
+                <td>{{ suite.price }}</td>
+                <td>{{ suite.updatedAt ? suite.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ suite.beds }}</td>
+                <td>{{ suite.bathroom }}</td>
+                <td>{{ suite.size }}</td>
+                <td>
+                    <a href="{{ path('app_manager_suits_show', {'id': suite.id}) }}">show</a>
+                    <a href="{{ path('app_manager_suits_edit', {'id': suite.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_manager_suits_new') }}">Create new</a>
+{% endblock %}

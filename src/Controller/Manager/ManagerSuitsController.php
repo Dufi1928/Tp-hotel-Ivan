@@ -1,35 +1,25 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Manager;
 
 use App\Entity\Suite;
-use Doctrine\ORM\EntityManagerInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Vich\UploaderBundle\Form\Type\VichFileType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Vich\UploaderBundle\Form\Type\VichImageType;
-use Doctrine\ORM\QueryBuilder;
 
-class SuiteCrudController extends AbstractCrudController
+class ManagerSuitsController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
         return Suite::class;
-    }
-
-    public function configureCrud(Crud $crud): Crud
-    {
-        return $crud
-            ->setEntityLabelInSingular('Suite')
-            ->setEntityLabelInPlural('Suites');
     }
 
     public function configureFields(string $pageName): iterable
@@ -37,6 +27,7 @@ class SuiteCrudController extends AbstractCrudController
         return [
             TextField::new('name'),
             TextEditorField::new('description'),
+            NumberField::new('hotel.id'),
             MoneyField::new('price')->setCurrency('USD'),
             ImageField::new('image_name')
                 ->setBasePath('/uploads/img/rooms')
@@ -48,13 +39,17 @@ class SuiteCrudController extends AbstractCrudController
         ];
     }
 
-    public function configureEntity(EntityDto $entityDto, Crud $crud, EntityManagerInterface $entityManager): void
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
-        $suiteQueryBuilder = $entityManager->createQueryBuilder()
-            ->select('s')
-            ->from(Suite::class, 's')
-            ->join('s.hotel', 'h');
+        $queryBuilder = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        $manager = $this->getUser();
 
-        $crud->setEntityQueryBuilder($suiteQueryBuilder);
+        if ($manager->getHotel() !== null) {
+            $queryBuilder
+                ->andWhere('entity.hotel = :hotel_id')
+                ->setParameter('hotel_id', $manager->getHotel()->getId());
+        }
+
+        return $queryBuilder;
     }
 }

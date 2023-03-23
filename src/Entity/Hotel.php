@@ -2,19 +2,16 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\HotelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
-
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
-#[ApiResource]
 class Hotel
 {
     #[ORM\Id]
@@ -25,7 +22,7 @@ class Hotel
 
     #[ORM\Column(length: 255)]
     #[Groups("hotel:read")]
-    private ?string $adress = null;
+    private ?string $address   = null;
 
     #[ORM\Column(length: 60)]
     #[Groups("hotel:read")]
@@ -48,27 +45,63 @@ class Hotel
     #[Groups("hotel:read")]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
-    #[Groups("hotel:read")]
-    private ?string $coverImg = null;
-
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Admin $admin = null;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Manager $manager = null;
-
-    #[ORM\ManyToOne(inversedBy: 'hotels')]
-    private ?Admin $admins = null;
 
     #[ORM\OneToMany(mappedBy: 'hotel', targetEntity: Suite::class)]
     #[Groups("hotel:read")]
     private Collection $suites;
 
+    #[Vich\UploadableField(mapping:"hotel_image", fileNameProperty:"imageName")]
+    private $coverImgFile;
+    #[ORM\Column(type:"string", length:255, nullable:true)]
+    private $coverImgName;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+
+
+
     public function __construct()
     {
         $this->suites = new ArrayCollection();
+    }
+
+    public function getCoverImgFile(): ?File
+    {
+        return $this->coverImgFile;
+    }
+
+    public function setCoverImgFile(?File $coverImgFile = null): self
+    {
+        $this->coverImgFile = $coverImgFile;
+
+        if ($coverImgFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+
+        return $this;
+    }
+
+    public function setCoverImgName($imageName)
+    {
+        $this->coverImgName = $imageName;
+    }
+
+    public function getCoverImgName()
+    {
+        return $this->coverImgName;
     }
 
 
@@ -77,14 +110,14 @@ class Hotel
         return $this->id;
     }
 
-    public function getAdress(): ?string
+    public function getAddress(): ?string
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setAdress(string $adress): self
+    public function setAddress(string $address): self
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
@@ -145,55 +178,6 @@ class Hotel
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getCoverImg(): ?string
-    {
-        return $this->coverImg;
-    }
-
-    public function setCoverImg(string $coverImg): self
-    {
-        $this->coverImg = $coverImg;
-
-        return $this;
-    }
-
-
-    public function getAdmin(): ?Admin
-    {
-        return $this->admin;
-    }
-
-    public function setAdmin(?Admin $admin): self
-    {
-        $this->admin = $admin;
-
-        return $this;
-    }
-
-    public function getManager(): ?Manager
-    {
-        return $this->manager;
-    }
-
-    public function setManager(?Manager $manager): self
-    {
-        $this->manager = $manager;
-
-        return $this;
-    }
-
-    public function getAdmins(): ?Admin
-    {
-        return $this->admins;
-    }
-
-    public function setAdmins(?Admin $admins): self
-    {
-        $this->admins = $admins;
 
         return $this;
     }

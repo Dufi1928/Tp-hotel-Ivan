@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Suite{% endblock %}
+
+{% block body %}
+    <h1>Create new Suite</h1>
+
+    {{ include('manager_suits/_form.html.twig') }}
+
+    <a href="{{ path('app_manager_suits_index') }}">back to list</a>
+{% endblock %}

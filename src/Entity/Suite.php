@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\SuiteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SuiteRepository::class)]
 #[Vich\Uploadable]
@@ -33,6 +34,7 @@ class Suite
     private $imageFile;
     #[ORM\Column(type:"string", length:255, nullable:true)]
     private $imageName;
+
 
     public function setImageFile(File $image = null)
     {
@@ -91,6 +93,9 @@ class Suite
 
     #[ORM\ManyToOne(inversedBy: 'suites')]
     private ?Hotel $hotel = null;
+
+    #[ORM\OneToMany(mappedBy: 'suite', targetEntity: Booking::class)]
+    private Collection $bookings;
 
 
 
@@ -184,6 +189,7 @@ class Suite
     public function __construct()
     {
         $this->updatedAt = new \DateTimeImmutable();
+        $this->bookings = new ArrayCollection();
     }
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
@@ -195,6 +201,36 @@ class Suite
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setSuite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getSuite() === $this) {
+                $booking->setSuite(null);
+            }
+        }
+
+        return $this;
     }
 
 }

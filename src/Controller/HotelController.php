@@ -36,7 +36,6 @@ class HotelController extends AbstractController
             'hotel'=> $hotel
         ]);
     }
-
 }
 
 

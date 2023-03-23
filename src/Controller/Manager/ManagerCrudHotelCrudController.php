@@ -1,16 +1,24 @@
 <?php
-namespace App\Controller\Admin;
+
+namespace App\Controller\Manager;
 
 use App\Entity\Hotel;
+use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 
-class HotelCrudController extends AbstractCrudController
+class ManagerCrudHotelCrudController extends AbstractCrudController
 {
+
+
     public static function getEntityFqcn(): string
     {
         return Hotel::class;
@@ -33,5 +41,23 @@ class HotelCrudController extends AbstractCrudController
                 ->setLabel('Covet Image')
         ];
     }
-}
 
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    {
+        $queryBuilder = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        $manager = $this->getUser();
+
+        if ($manager->getHotel() !== null) {
+            $queryBuilder
+                ->andWhere('entity.id = :hotel_id')
+                ->setParameter('hotel_id', $manager->getHotel()->getId());
+        } else {
+            // If the manager does not have an associated hotel, display no hotels
+            $queryBuilder
+                ->andWhere('1 = 0');
+        }
+
+        return $queryBuilder;
+    }
+
+}

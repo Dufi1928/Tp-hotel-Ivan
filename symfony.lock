@@ -1,17 +1,4 @@
 {
-    "api-platform/core": {
-        "version": "3.1",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "3.0",
-            "ref": "0330386d716d3eecc52ee5ac66976e733eb8f961"
-        },
-        "files": [
-            "./config/routes/api_platform.yaml",
-            "./src/ApiResource/.gitignore"
-        ]
-    },
     "doctrine/annotations": {
         "version": "1.14",
         "recipe": {
@@ -73,7 +60,7 @@
         "version": "v6.1.1"
     },
     "nelmio/cors-bundle": {
-        "version": "2.2",
+        "version": "2.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -363,15 +350,12 @@
         "version": "v3.5.0"
     },
     "vich/uploader-bundle": {
-        "version": "2.0",
+        "version": "2.1",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "main",
             "version": "1.13",
             "ref": "1b3064c2f6b255c2bc2f56461aaeb76b11e07e36"
-        },
-        "files": [
-            "./config/packages/vich_uploader.yaml"
-        ]
+        }
     }
 }

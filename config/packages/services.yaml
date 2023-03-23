@@ -1,12 +1,12 @@
-services:
-  vich_uploader.naming_strategy.unique:
-    class: Vich\UploaderBundle\Naming\SmartUniqueNamer
-    arguments: ['@vich_uploader.storage', '@vich_uploader.namer_directory_namer', {}]
-    public: true
-  App\Service\CustomNamer:
-    public: true
-    tags:
-      - { name: vich_uploader.namer, namer: custom_namer }
-  vich_uploader.namer_directory_namer:
-    class: Vich\UploaderBundle\Naming\DirectoryNamer
-    public: true
+#services:
+#  vich_uploader.naming_strategy.unique:
+#    class: Vich\UploaderBundle\Naming\SmartUniqueNamer
+#    arguments: ['@Vich\UploaderBundle\Storage\StorageInterface', '@vich_uploader.namer_directory_namer', {}]
+#    public: true
+#  App\Service\CustomNamer:
+#    public: true
+#    tags:
+#      - { name: vich_uploader.namer, namer: custom_namer }
+#  vich_uploader.namer_directory_namer:
+#    class: Vich\UploaderBundle\Naming\DirectoryNamer
+#    public: true

@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('build/home.css') }}">
     {% for hotel in hotel %}
-        <div class="hero" style="background-image: url('{{ asset( 'uploads/img/hotels/') }}{{ hotel.coverImg }}');"></div>
+        <div class="hero" style="background-image: url('{{ asset( 'uploads/img/hotels/') }}{{ hotel.coverImgName }}');"></div>
     {% endfor %}
     <section class="section pb-0"  >
         <div class="container">
