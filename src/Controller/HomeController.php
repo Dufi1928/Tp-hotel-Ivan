@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Hotel;
-use App\Form\NewBookingType;
+use App\Form\SeqrchAvalableRoomsType;
 use App\Repository\HotelRepository;
 use App\Repository\SuiteRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -27,7 +27,7 @@ class HomeController extends AbstractController
             9
         );
 
-        $form = $this->createForm(NewBookingType::class);
+        $form = $this->createForm(SeqrchAvalableRoomsType::class);
         $form->handleRequest($request);
 
         $suites = [];

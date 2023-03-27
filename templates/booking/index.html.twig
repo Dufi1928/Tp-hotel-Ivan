@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <div class="hero" style="background-image: url('https://www.rabstol.net/uploads/gallery/main/219/rabstol_net_france_12.jpg');"></div>
+
+    <div class="container-fluid">
+        <div class="row mt-5 align-items-center">
+                <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                    <img src="{{ asset( 'uploads/img/rooms/') }}{{ suite.imageName }} " alt="Image" class="img-fluid rounded">
+                </div>
+
+                <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
+                    {{ form_start(form) }}
+                    {{ form_label(form.checkInDate, 'Check In', {'label_attr': {'class': 'font-weight-bold text-black'}}) }}
+                    <div class="input-group">
+                        <div class="input-group date" data-provide="datepicker">
+                            {{ form_widget(form.checkInDate, {'attr': {'class': 'form-control', 'id': 'checkin_date'}}) }}
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_label(form.checkOutDate, 'Check Out', {'label_attr': {'class': 'font-weight-bold text-black'}}) }}
+                    <div class="input-group mb-3">
+                        <div class="input-group date" data-provide="datepicker">
+                            {{ form_widget(form.checkOutDate, {'attr': {'class': 'form-control', 'id': 'checkout_date'}}) }}
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_widget(form) }}
+                    <button class="btn btn-primary">Book</button>
+                    {{ form_end(form) }}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize the datepicker for the start date
+            $('#checkin_date').datepicker({
+                format: 'dd/mm/yyyy', // Use the same format as in the form class
+                onSelect: function(dateText) {
+                    // Synchronize the input field value with the selected date
+                    $(this).val(dateText);
+                }
+            });
+
+            // Initialize the datepicker for the end date
+            $('#checkout_date').datepicker({
+                format: 'dd/mm/yyyy', // Use the same format as in the form class
+                onSelect: function(dateText) {
+                    // Synchronize the input field value with the selected date
+                    $(this).val(dateText);
+                }
+            });
+        });
+    </script>
+{% endblock %}

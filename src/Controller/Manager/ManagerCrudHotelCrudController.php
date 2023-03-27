@@ -52,7 +52,6 @@ class ManagerCrudHotelCrudController extends AbstractCrudController
                 ->andWhere('entity.id = :hotel_id')
                 ->setParameter('hotel_id', $manager->getHotel()->getId());
         } else {
-            // If the manager does not have an associated hotel, display no hotels
             $queryBuilder
                 ->andWhere('1 = 0');
         }

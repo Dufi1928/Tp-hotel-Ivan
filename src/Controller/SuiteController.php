@@ -19,6 +19,7 @@ class SuiteController extends AbstractController
         return $this->render('room_show/index.html.twig', [
             'controller_name' => 'SuiteController',
             'suite' => $suite
+
         ]);
     }
 }
